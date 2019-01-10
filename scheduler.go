@@ -1,5 +1,7 @@
 package job
 
+import "fmt"
+
 type scheduler struct{}
 
 func (s scheduler) run(
@@ -23,7 +25,8 @@ func (s scheduler) run(
 	go sendinput(mappingTasks, nmRoutine, input)
 	getOutput(len(mappingTasks[nmRoutine]), nmRoutine, output)
 
-	if mappingStatusTasks[nmRoutine] == running {
+	if mappingStatusTasks[nmRoutine] == done || mappingStatusTasks[nmRoutine] == restart {
+		fmt.Println("######### TEAR DOWN CHANNEL AND GO ROUTINE #########")
 		tearDown(input, output)
 	}
 }
