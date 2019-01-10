@@ -1,13 +1,29 @@
-package scheduler
+package job
 
-import (
-	"time"
-	"util/channel/lib/scheduler/example/logic1"
-)
+type scheduler struct{}
 
-func scheduler() {
-	logic1.RunScheduler()
-	// logic2.RunScheduler()
+func (s scheduler) run(
+	routine int,
+	nmRoutine string,
+	tasks map[int]interface{},
+	input chan interface{},
+	output chan correlated,
+) {
+	mappingTasks[nmRoutine] = tasks
 
-	time.Sleep(10 * time.Minute)
+	if mappingStatusTasks[nmRoutine] == restart {
+		input, output = make(chan interface{}), make(chan correlated)
+	}
+
+	mappingStatusTasks[nmRoutine] = running
+	for i := 0; i < routine; i++ {
+		go worker(input, output, nmRoutine)
+	}
+
+	go sendinput(mappingTasks, nmRoutine, input)
+	getOutput(len(mappingTasks[nmRoutine]), nmRoutine, output)
+
+	if mappingStatusTasks[nmRoutine] == running {
+		tearDown(input, output)
+	}
 }
