@@ -28,3 +28,8 @@ func registerLogic(
 
 	return
 }
+
+// ResetLogic - ResetLogic
+func ResetLogic(nmRoutine string) {
+	delete(logicRun, nmRoutine)
+}
