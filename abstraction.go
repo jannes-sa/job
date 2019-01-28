@@ -1,8 +1,6 @@
 package job
 
-import (
-	"errors"
-)
+import "fmt"
 
 var (
 	logicRun = make(map[string]logiclayer)
@@ -23,7 +21,7 @@ func registerLogic(
 ) (err error) {
 	if _, ok := logicRun[nmRoutine]; ok {
 		msg := "failed Registered Logic " + nmRoutine + "Already Registered"
-		err = errors.New(msg)
+		fmt.Println(msg)
 		return
 	}
 	logicRun[nmRoutine] = logic
