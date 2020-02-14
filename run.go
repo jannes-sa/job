@@ -4,12 +4,17 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"sync"
 )
 
 var (
-	mappingTasks       = make(map[string]map[int]interface{})
 	mappingStatusTasks = make(map[string]status)
 	debug              = true
+
+	routineStorage = storage{
+		routines: make(map[string]map[int]interface{}),
+		mu:       &sync.RWMutex{},
+	}
 )
 
 type status uint8
