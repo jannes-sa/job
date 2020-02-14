@@ -11,7 +11,7 @@ func (s scheduler) run(
 	input chan interface{},
 	output chan correlated,
 ) {
-	mappingTasks[nmRoutine] = tasks
+	routineStorage.setTasks(nmRoutine, tasks)
 
 	if mappingStatusTasks[nmRoutine] == restart {
 		input, output = make(chan interface{}), make(chan correlated)
@@ -22,8 +22,8 @@ func (s scheduler) run(
 		go worker(input, output, nmRoutine)
 	}
 
-	go sendinput(mappingTasks, nmRoutine, input)
-	getOutput(len(mappingTasks[nmRoutine]), nmRoutine, output)
+	go sendinput(nmRoutine, input)
+	getOutput(routineStorage.numOfTask(nmRoutine), nmRoutine, output)
 
 	if mappingStatusTasks[nmRoutine] == done || mappingStatusTasks[nmRoutine] == restart {
 		fmt.Println("######### TEAR DOWN CHANNEL AND GO ROUTINE #########")

@@ -5,7 +5,6 @@ import (
 )
 
 func sendinput(
-	mappingTasks map[string]map[int]interface{},
 	nmRoutine string,
 	input chan<- interface{},
 ) {
@@ -18,15 +17,14 @@ func sendinput(
 		}
 	}()
 
-	for k, v := range mappingTasks[nmRoutine] {
+	for k, v := range routineStorage.getTasks(nmRoutine) {
 		in := correlated{
 			key:   k,
 			input: v,
 		}
 		input <- in
-		delete(mappingTasks[nmRoutine], k)
+		routineStorage.deleteTask(nmRoutine, k)
 	}
-
 }
 
 func getOutput(countTasks int, nmRoutine string, output chan correlated) {

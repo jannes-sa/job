@@ -15,10 +15,8 @@ func monitoring(
 		return
 	}
 
-	var mapWorker int
 	for t := range time.Tick(interval) {
-		mapWorker = len(mappingTasks[nmRoutine])
-		print(t, nmRoutine, "TOTAL TASKS LEFT", mapWorker, "STATUS", status.String(mappingStatusTasks[nmRoutine]))
+		print(t, nmRoutine, "TOTAL TASKS LEFT", routineStorage.numOfTask(nmRoutine), "STATUS", status.String(mappingStatusTasks[nmRoutine]))
 
 		switch mappingStatusTasks[nmRoutine] {
 		case restart:

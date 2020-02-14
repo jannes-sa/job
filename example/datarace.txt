@@ -1,0 +1,28 @@
+==================
+WARNING: DATA RACE
+Write at 0x00c000092210 by goroutine 12:
+  runtime.mapdelete_fast64()
+      /usr/local/go/src/runtime/map_fast64.go:272 +0x0
+  github.com/satriarrrrr/job.sendinput()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/worker.go:27 +0x288
+
+Previous read at 0x00c000092210 by main goroutine:
+  github.com/satriarrrrr/job.scheduler.run()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/scheduler.go:26 +0x2de
+  github.com/satriarrrrr/job.prepareRun()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/run.go:86 +0x292
+  github.com/satriarrrrr/job.RunScheduler()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/run.go:54 +0x170
+  main.main()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/example/main.go:69 +0x6b
+
+Goroutine 12 (running) created at:
+  github.com/satriarrrrr/job.scheduler.run()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/scheduler.go:25 +0x266
+  github.com/satriarrrrr/job.prepareRun()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/run.go:86 +0x292
+  github.com/satriarrrrr/job.RunScheduler()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/run.go:54 +0x170
+  main.main()
+      /Users/satriaramadhan/go/src/github.com/satriarrrrr/job/example/main.go:69 +0x6b
+==================
